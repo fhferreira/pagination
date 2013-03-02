@@ -55,6 +55,13 @@ class Paginator implements ArrayAccess, Countable, IteratorAggregate {
 	 * @var array
 	 */
 	protected $query = array();
+	
+	/**
+	 * The Element Id to anchor link.
+	 *
+	 * @return int
+	 */
+	protected $ElementId;
 
 	/**
 	 * Create a new Paginator instance.
@@ -145,6 +152,10 @@ class Paginator implements ArrayAccess, Countable, IteratorAggregate {
 		if (count($this->query) > 0)
 		{
 			$url = $url.'&'.http_build_query($this->query);
+		}
+		
+		if($this->elementId){
+			$url .= "#" . $this->elementId;
 		}
 
 		return $url;
@@ -289,6 +300,17 @@ class Paginator implements ArrayAccess, Countable, IteratorAggregate {
 	public function offsetUnset($key)
 	{
 		unset($this->items[$key]);
+	}
+	
+	/**
+	 * Set the Element Id to anchor links.
+	 *
+	 * @param  mixed  $elementId
+	 * @return Illuminate\Pagination\Paginator
+	 */
+	public function appendsElementId($elementId){
+		$this->elementId = $elementId;
+		return $this;
 	}
 
 }
